@@ -16,11 +16,8 @@ import com.replaymod.replaystudio.us.myles.ViaVersion.packets.State;
 import org.apache.commons.cli.CommandLine;
 
 import java.io.*;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import static java.lang.System.in;
 
@@ -69,17 +66,15 @@ public class AppendLauncher {
           }
           long tempTimeOffset = 0;
           while ((data = stream.next()) != null) {
+            tempTimeOffset = data.getTime();
             data.setTime(data.getTime() + timeOffset);
             out.write(data);
-            tempTimeOffset = data.getTime();
           }
           timeOffset += tempTimeOffset;
-
+          System.out.println(timeOffset / 1000 / 60 / 60);
           for (PacketData d : stream.end()) {
              out.write(d);
           }
-
-
 
         } else { // Drop output
           System.out.println("out is null");
