@@ -95,6 +95,8 @@ public class Launcher {
             new StreamLauncher().launch(cmd);
         } else if (cmd.hasOption('r')) {
             new ReverseLauncher().launch(cmd);
+        } else if (cmd.hasOption('a')) {
+            new AppendLauncher().launch(cmd);
         } else if (cmd.hasOption('d')) {
             new DaemonLauncher().launch(cmd);
         }
