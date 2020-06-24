@@ -71,7 +71,6 @@ public class AppendLauncher {
             out.write(data);
           }
           timeOffset += tempTimeOffset;
-          System.out.println(timeOffset / 1000 / 60 / 60);
           for (PacketData d : stream.end()) {
              out.write(d);
           }
