@@ -25,10 +25,10 @@ public class AppendLauncher {
   public void launch(CommandLine cmd) throws Exception{
     //Initialize list of ReplyFiles by reading in all but last paths
     List <ReplayFile> inFiles = new ArrayList<>();
+    inFiles.add(new ZipReplayFile(new ReplayStudio(), new File(cmd.getOptionValue("a"))));
     for(int i = 0; i < cmd.getArgs().length - 1; i++){
       inFiles.add(new ZipReplayFile(new ReplayStudio(), new File(cmd.getArgs()[i])));
     }
-
 
     ReplayMetaData meta = inFiles.get(0).getMetaData();
     ProtocolVersion inputVersion = meta.getProtocolVersion();
