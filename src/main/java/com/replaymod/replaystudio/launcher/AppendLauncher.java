@@ -22,18 +22,18 @@ import java.util.List;
 import static java.lang.System.in;
 
 public class AppendLauncher {
-  public void launch(CommandLine cmd) throws Exception{
-    //Initialize list of ReplyFiles by reading in all but last paths
-    List <ReplayFile> inFiles = new ArrayList<>();
+  public void launch(CommandLine cmd) throws Exception {
+    // Initialize list of ReplyFiles by reading in all but last paths
+    List<ReplayFile> inFiles = new ArrayList<>();
     inFiles.add(new ZipReplayFile(new ReplayStudio(), new File(cmd.getOptionValue("a"))));
-    for(int i = 0; i < cmd.getArgs().length - 1; i++){
+    for (int i = 0; i < cmd.getArgs().length - 1; i++) {
       inFiles.add(new ZipReplayFile(new ReplayStudio(), new File(cmd.getArgs()[i])));
     }
 
     ReplayMetaData meta = inFiles.get(0).getMetaData();
     ProtocolVersion inputVersion = meta.getProtocolVersion();
 
-    //Set up the output stream for writing final file
+    // Set up the output stream for writing final file
     ReplayOutputStream out;
     String output = cmd.getArgs()[cmd.getArgs().length - 1];
     if (!"x".equals(output)) {
@@ -43,10 +43,10 @@ public class AppendLauncher {
       out = null;
     }
     long timeOffset = 0;
-    for(int i = 0; i < inFiles.size(); i++){
+    for (int i = 0; i < inFiles.size(); i++) {
       ReplayFile inFile = inFiles.get(i);
       try {
-        //Set up stream
+        // Set up stream
         PacketStream stream = null;
 
         stream = inFile.getPacketData(PacketTypeRegistry.get(inputVersion, State.LOGIN)).asPacketStream();
@@ -61,8 +61,10 @@ public class AppendLauncher {
 
         PacketData data;
         if (out != null) { // Write output
-          if(i > 0 ){
-            for(int j = 0; j < 2; j++) stream.next();
+          if (i > 0) {
+            for (int j = 0; j < 2; j++) {
+              stream.next();
+            }
           }
           long tempTimeOffset = 0;
           while ((data = stream.next()) != null) {
@@ -72,7 +74,7 @@ public class AppendLauncher {
           }
           timeOffset += tempTimeOffset;
           for (PacketData d : stream.end()) {
-             out.write(d);
+            out.write(d);
           }
 
         } else { // Drop output
@@ -84,7 +86,6 @@ public class AppendLauncher {
         e.printStackTrace();
       }
     }
-
 
     out.close();
   }
@@ -129,5 +130,3 @@ public class AppendLauncher {
     }
   }
 }
-
-
