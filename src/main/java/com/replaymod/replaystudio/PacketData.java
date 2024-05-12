@@ -30,7 +30,7 @@ public final class PacketData implements Cloneable {
     /**
      * Timestamp in milliseconds.
      */
-    private final long time;
+    private long time;
 
     /**
      * The packet.
@@ -44,6 +44,10 @@ public final class PacketData implements Cloneable {
 
     public long getTime() {
         return this.time;
+    }
+
+    public void setTime(long time){
+        this.time = time;
     }
 
     public Packet getPacket() {
